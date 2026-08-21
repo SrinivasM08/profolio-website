@@ -1,0 +1,235 @@
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+/*
+ * Design system — ported from the original srinivasmalla.com stylesheet.
+ * Light, premium, emerald accent. Syne (display) + DM Sans (body).
+ * All colours are semantic tokens; never hardcode hex values in components.
+ */
+
+@theme inline {
+  --color-background: var(--bg);
+  --color-background-alt: var(--bg2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface2);
+  --color-foreground: var(--text);
+  --color-muted-foreground: var(--text2);
+  --color-subtle-foreground: var(--text3);
+  --color-border: var(--border);
+  --color-border-strong: var(--border2);
+  --color-accent: var(--accent);
+  --color-accent-strong: var(--accent2);
+  --color-accent-light: var(--accent-lt);
+  --color-accent-foreground: var(--accent-fg);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-lt);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-ring: var(--accent);
+
+  --font-display: var(--fd);
+  --font-sans: var(--fb);
+
+  --radius-card: var(--r);
+  --radius-chip: var(--rs);
+
+  --shadow-sm: var(--shadow-1);
+  --shadow-md: var(--shadow-2);
+  --shadow-lg: var(--shadow-3);
+}
+
+:root {
+  --bg: #f8faff;
+  --bg2: #f0f4ff;
+  --surface: #ffffff;
+  --surface2: #f4f7ff;
+
+  --border: #e2e8f4;
+  --border2: #c8d3e8;
+
+  --accent: #0a7a5b;
+  --accent2: #076048;
+  --accent-lt: #d1fae5;
+  --accent-fg: #ffffff;
+  --accent-glow: rgba(10, 122, 91, 0.18);
+
+  --gold: #a45c00;
+  --gold-lt: #fef3c7;
+
+  --text: #0f1a2e;
+  --text2: #46536b;
+  --text3: #5b6a80;
+
+  --danger: #b42318;
+  --success: #087f5b;
+
+  --shadow-1: 0 2px 8px rgba(15, 26, 46, 0.06);
+  --shadow-2: 0 8px 32px rgba(15, 26, 46, 0.1);
+  --shadow-3: 0 20px 60px rgba(15, 26, 46, 0.13);
+
+  --fd: "Syne", ui-sans-serif, system-ui, sans-serif;
+  --fb: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --r: 14px;
+  --rs: 8px;
+  --navh: 68px;
+}
+
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--navh) + 16px);
+    overflow-x: hidden;
+  }
+
+  body {
+    min-width: 320px;
+    overflow-x: hidden;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--fb);
+    font-size: 16px;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--fd);
+    letter-spacing: -0.03em;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+
+  img,
+  svg,
+  video,
+  iframe {
+    max-width: 100%;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+  }
+
+  textarea {
+    resize: vertical;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Softer, consistent easing for hover/focus transitions */
+  [class*="transition"] {
+    transition-duration: 320ms;
+    transition-timing-function: cubic-bezier(0.22, 0.61, 0.24, 1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+/* ── Reusable pieces ─────────────────────────────── */
+
+@utility skip-link {
+  position: absolute;
+  left: 12px;
+  top: -60px;
+  z-index: 2000;
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: var(--rs);
+  font-weight: 700;
+  transition: top 0.2s;
+  &:focus {
+    top: 12px;
+  }
+}
+
+@utility surface-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--shadow-1);
+}
+
+@utility hero-dots {
+  background-image: radial-gradient(var(--border2) 1px, transparent 1px);
+  background-size: 28px 28px;
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, #000 30%, transparent 75%);
+}
+
+@utility reveal-init {
+  opacity: 0;
+  transform: translate3d(0, 14px, 0);
+  will-change: opacity, transform;
+  transition:
+    opacity 0.75s cubic-bezier(0.22, 0.61, 0.24, 1),
+    transform 0.75s cubic-bezier(0.22, 0.61, 0.24, 1);
+}
+
+@utility reveal-shown {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+
+@utility ticker-track {
+  display: flex;
+  width: max-content;
+  animation: ticker-scroll 46s linear infinite;
+  &:hover {
+    animation-play-state: paused;
+  }
+}
+
+@keyframes ticker-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@keyframes pulse-dot {
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.35);
+    opacity: 0.65;
+  }
+}
+
+@utility pulse-dot {
+  animation: pulse-dot 2.5s ease infinite;
+}
